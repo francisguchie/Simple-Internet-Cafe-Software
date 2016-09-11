@@ -1,0 +1,4 @@
+First name: Nanita
+Last name: Vidaja
+Address: Bacolod City
+Birthdate: 01071999
