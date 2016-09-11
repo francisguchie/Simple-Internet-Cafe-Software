@@ -1,0 +1,4 @@
+First name: Juliet
+Last name: David
+Address: Bacolod City
+Birthdate: 09897634548735
