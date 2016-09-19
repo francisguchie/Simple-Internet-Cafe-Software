@@ -8,7 +8,6 @@
 #include<string.h>
 #include<winver.h>
 
-
 //DAVID RYAN JOSHUA V
 //ORIGINAL NI YA TOOOOO
 //HISA KA? SUNDA HAHAHAHA
@@ -21,8 +20,8 @@ main()
     int pw, ctd;
 
     HWND hWnd;
-    SetConsoleTitle("Internet Cafe Billing System");
-    hWnd = FindWindow(NULL, "Internet Cafe Billing System");
+    SetConsoleTitle("Internet Cafe Billing System v.2.1 ");
+    hWnd = FindWindow(NULL, "Internet Cafe Billing System v.2.1 ");
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     COORD NewSBSize = GetLargestConsoleWindowSize(hOut);
     SMALL_RECT DisplayArea = {0, 0, 0, 0};
@@ -39,11 +38,13 @@ main()
     MessageBox(0,"Welcome to Internet Cafe Billing System\n© 2016 by Ryan Joshua David.\nA project in BES 200: Computer Fundamentals and Programming.\nSubmitted to Engr. Benjamin Allan Paculan.\n\nPress OK to continue.","Welcome!",1);
 
     pw:
+    system("COLOR 08");
     printf("Enter password: ");
     scanf("%d", &pw);
 
     if(pw==1300)
     {
+        system("COLOR 70");
         printf("Access granted.");
         Sleep(500);
         system("cls");
@@ -61,7 +62,7 @@ main()
     system("cls");
     beginning:
     Sleep(1000);
-    system("COLOR 97");
+    system("COLOR 70");
     printf("=============================================\n");
     printf("Welcome to the Internet Cafe Billing System!\n");
     printf("=============================================\n");
@@ -70,6 +71,7 @@ main()
     printf("\n");
     printf("Press 9 - Lock Application/User sign out\n");
     printf("Press 0 - Exit\n");
+    printf("Press 8 - Change Log\n");
     printf("\n");
     printf("Press 90 - About Application\n");
     printf("=============================================\n");
@@ -91,7 +93,7 @@ customer:
         Sleep(750);
         system("COLOR 2");
 
-        ofp = fopen("1.txt","w");
+        ofp = fopen("1.txt","a");
 
         printf("=========================================\n");
         printf("Add Customer Screen\n");
@@ -139,7 +141,7 @@ customer:
         printf("Address: %s\n", addr);
         fprintf(ofp, "Address: %s\n", addr);
         printf("Birthdate: %s\n", bd);
-        fprintf(ofp, "Birthdate: %s\n", bd);
+        fprintf(ofp, "Birthdate: %s\n\n", bd);
         fclose(ofp);
         printf("=========================================\n");
         Sleep(1000);
@@ -196,6 +198,10 @@ options:
         dig2 = 0;
         dig3 = 0;
         dig4 = 0;
+        tender = 0;
+        change = 0;
+        cc1 = 0;
+        gcb = 0;
 
         billing:
         system("COLOR 37");
@@ -477,6 +483,17 @@ options:
                 vat = totchg * 0.12;
                 tax = totchg - vat;
 
+                printf("----------------");
+                printf("Change: %.2f", change);
+                printf("----------------\n");
+                printf("Taxable: P %.2f \n", tax);
+                printf("VAT: P %.2f \n", vat);
+                printf("\n");
+                printf("Press any key to view receipt.\n");
+                getch();
+                goto receipttxt;
+
+                receipttxt:
                 ofp = fopen("2.txt","w");
 
                 fprintf(ofp, "CHERYL PISONET\n");
@@ -486,25 +503,105 @@ options:
                 fprintf(ofp, "--------------------------------\n");
                 fprintf(ofp, "Customer Name: %s ", fn);
                 fprintf(ofp, "--------------------------------\n");
-                fprintf(ofp, "Internet Charges \n");
-                fprintf(ofp, " - Total Time: %.2f \n", timel);
-                fprintf(ofp, "     * 12.00/hour \n");
-                fprintf(ofp, " - Total Charges: %.2f \n", timechg);
-                fprintf(ofp, "Printing Charges \n");
-                fprintf(ofp, " - Total Charges: %.2f \n", prtttl);
-                fprintf(ofp, "Total Food: %.2f \n", food);
-                fprintf(ofp, "Load Charges: %s \n",net);
-                fprintf(ofp, " - P %.2f \n", load);
+                if(timel == 0)
+                {
+                    goto prtfp;
+                }
+                else
+                {
+                    fprintf(ofp, "Internet Charges \n");
+                    fprintf(ofp, " - Total Time: %.2f \n", timel);
+                    fprintf(ofp, "     * 12.00/hour \n");
+                    fprintf(ofp, " - Total Charges: %.2f \n", timechg);
+                    goto prtfp;
+                }
+                prtfp:
+                if(prtttl == 0)
+                {
+                    goto foodfp;
+                }
+                else
+                {
+                    fprintf(ofp, "Printing Charges \n");
+                    fprintf(ofp, " - Total Charges: %.2f \n", prtttl);
+                    goto foodfp;
+                }
+                foodfp:
+                if(food == 0)
+                {
+                    goto loadfp;
+                }
+                else
+                {
+                    fprintf(ofp, "Total Food: %.2f \n", food);
+                    goto loadfp;
+                }
+                loadfp:
+                if(load == 0)
+                {
+                    goto chgfp;
+                }
+                else
+                {
+                    fprintf(ofp, "Load Charges: %s \n",net);
+                    fprintf(ofp, " - P %.2f \n", load);
+                    goto chgfp;
+                }
+                chgfp:
                 fprintf(ofp, "--------------------------------\n");
                 fprintf(ofp, "Grand Total:   %.2f\n", totchg);
                 fprintf(ofp, " - Taxable:    %.2f\n", tax);
                 fprintf(ofp, " - VAT 12%:    %.2f\n", vat);
-                fprintf(ofp, "Amount Tendered: \n");
-                fprintf(ofp, " - Cash        %.2f\n", tender);
-                fprintf(ofp, "Change:        %.2f\n", change);
-                fprintf(ofp, "Loyalty Card: \n");
-                fprintf(ofp, " - Card No.: xxxx %d\n", dig4);
-                fprintf(ofp, " - Points Earned: %.2f\n", pt);
+                if(tender == 0)
+                {
+                    goto crfp;
+                }
+                else
+                {
+                    fprintf(ofp, "Amount Tendered: \n");
+                    fprintf(ofp, " - Cash        %.2f\n", tender);
+                    fprintf(ofp, "Change:        %.2f\n", change);
+                    goto crfp;
+                }
+                crfp:
+                if(cc4 == 0)
+                {
+                    goto gcfp;
+                }
+                else
+                {
+                    fprintf(ofp, "Amount Tendered: \n");
+                    fprintf(ofp, " - Credit Card: %s\n", cm);
+                    fprintf(ofp, " - Card No: xxxx %d\n", cc4);
+                    fprintf(ofp, " - Approval Code: %d\n", appr);
+                    goto gcfp;
+                }
+                gcfp:
+                if(gcb == 0)
+                {
+                    goto lcfp;
+                }
+                else
+                {
+                    fprintf(ofp, "Amount Tendered: GC\n");
+                    fprintf(ofp, " - GC #      %d%.0f\n", gc1, gcd);
+                    fprintf(ofp, " - GC Ini Bal: %.2f\n", gcb);
+                    fprintf(ofp, " - GC Rem Bal: %.2f\n", gcr);
+                    goto lcfp;
+                }
+                lcfp:
+                if(dig4 == 0)
+                {
+                    goto contfp;
+                }
+                else
+                {
+                    fprintf(ofp, "Loyalty Card: \n");
+                    fprintf(ofp, " - Card No.: xxxx %d\n", dig4);
+                    fprintf(ofp, " - Points Earned: %.2f\n", pt);\
+                    goto contfp;
+                }
+                contfp:
                 fprintf(ofp, "--------------------------------\n");
                 fprintf(ofp, "%d | ", r);
                 fprintf(ofp, "%s",ctime(&t));
@@ -515,19 +612,9 @@ options:
 
                 fclose(ofp);
 
-                change = tender - totchg;
-                vat = totchg * 0.12;
-                tax = totchg - vat;
+                goto receipt;
 
-                printf("----------------");
-                printf("Change: %.2f", change);
-                printf("----------------\n");
-                printf("Taxable: P %.2f \n", tax);
-                printf("VAT: P %.2f \n", vat);
-                printf("\n");
-                printf("Press any key to view receipt.\n");
-                getch();
-
+                receipt:
                 Sleep(1000);
                 system("cls");
                 printf("=========================================\n");
@@ -542,25 +629,90 @@ options:
                 printf("------------------------------\n");
                 printf("Customer Name: %s \n", fn);
                 printf("------------------------------\n");
-                printf("Internet Charges\n");
-                printf(" - Total Time: %.2f\n", timel);
-                printf("     * 12.00/hour\n");
-                printf(" - Total Charges: %.2f\n", timechg);
-                printf("Printing Charges\n");
-                printf(" - Total Charges: %.2f\n", prtttl);
-                printf("Total Food: %.2f\n", food);
-                printf("Load Charges: %s\n",net);
-                printf(" - P %.2f\n", load);
+                if(timel == 0)
+                {
+                    goto prtr;
+                }
+                else
+                {
+                    printf("Internet Charges\n");
+                    printf(" - Total Time: %.2f\n", timel);
+                    printf("     * 12.00/hour\n");
+                    printf(" - Total Charges: %.2f\n", timechg);
+                    goto prtr;
+                }
+                prtr:
+                if(prtttl == 0)
+                {
+                    goto fdr;
+                }
+                else
+                {
+                    printf("Printing Charges\n");
+                    printf(" - Total Charges: %.2f\n", prtttl);
+                    goto fdr;
+                }
+                fdr:
+                if(food == 0)
+                {
+                    goto lod;
+                }
+                else
+                {
+                    printf("Total Food: %.2f\n", food);
+                    goto lod;
+                }
+                lod:
+                if(load == 0)
+                {
+                    goto contr;
+                }
+                else
+                {
+                    printf("Load Charges: %s\n",net);
+                    printf(" - P %.2f\n", load);
+                }
+                contr:
                 printf("------------------------------\n");
                 printf("Grand Total:   %.2f\n", totchg);
                 printf(" - Taxable:    %.2f\n", tax);
                 printf(" - VAT 12%:    %.2f\n", vat);
+                if(tender > 0)
+                {
                 printf("Amount Tendered: \n");
                 printf(" - Cash        %.2f\n", tender);
                 printf("Change:        %.2f\n", change);
-                printf("Loyalty Card: \n");
-                printf(" - Card No.: xxxx %d\n", dig4);
-                printf(" - Points Earned: %.2f\n", pt);
+                goto lcr;
+                }
+                else if(cc1 > 0)
+                {
+                    printf("Amount Tendered: \n");
+                    printf(" - Credit Card: %s\n", cm);
+                    printf(" - Card No: xxxx %d\n", cc4);
+                    printf(" - Approval Code: %d\n", appr);
+                    goto lcr;
+                }
+                else if(gcb > 0)
+                {
+                    printf("Amount Tendered: GC\n");
+                    printf(" - GC #      %d%.0f\n", gc1, gcd);
+                    printf(" - GC Ini Bal: %.2f\n", gcb);
+                    printf(" - GC Rem Bal: %.2f\n", gcr);
+                    goto lcr;
+                }
+                lcr:
+                if(dig4 == 0)
+                {
+                    goto contn;
+                }
+                else
+                {
+                    printf("Loyalty Card: \n");
+                    printf(" - Card No.: xxxx %d\n", dig4);
+                    printf(" - Points Earned: %.2f\n", pt);
+                    goto contn;
+                }
+                contn:
                 printf("------------------------------\n");
                 printf("%d | ", r);
                 printf("%s",ctime(&t));
@@ -609,45 +761,6 @@ options:
                     vat = totchg * 0.12;
                     tax = totchg - vat;
 
-                    ofp = fopen("2.txt","w");
-
-                    fprintf(ofp, "CHERYL PISONET\n");
-                    fprintf(ofp, "476 Workenshire Road\n");
-                    fprintf(ofp, "Manhattan, New York City\n");
-                    fprintf(ofp, "Official Receipt\n");
-                    fprintf(ofp, "--------------------------------\n");
-                    fprintf(ofp, "Customer Name: %s ", fn);
-                    fprintf(ofp, "--------------------------------\n");
-                    fprintf(ofp, "Internet Charges \n");
-                    fprintf(ofp, " - Total Time: %.2f \n", timel);
-                    fprintf(ofp, "     * 12.00/hour \n");
-                    fprintf(ofp, " - Total Charges: %.2f \n", timechg);
-                    fprintf(ofp, "Printing Charges \n");
-                    fprintf(ofp, " - Total Charges: %.2f \n", prtttl);
-                    fprintf(ofp, "Total Food: %.2f \n", food);
-                    fprintf(ofp, "Load Charges: %s \n",net);
-                    fprintf(ofp, " - P %.2f \n", load);
-                    fprintf(ofp, "--------------------------------\n");
-                    fprintf(ofp, "Grand Total:   %.2f\n", totchg);
-                    fprintf(ofp, " - Taxable:    %.2f\n", tax);
-                    fprintf(ofp, " - VAT 12%:    %.2f\n", vat);
-                    fprintf(ofp, "Amount Tendered: \n");
-                    fprintf(ofp, " - Credit Card: %s\n", cm);
-                    fprintf(ofp, " - Card No: xxxx %d\n", cc4);
-                    fprintf(ofp, " - Approval Code: %d\n", appr);
-                    fprintf(ofp, "Loyalty Card: \n");
-                    fprintf(ofp, " - Card No.: xxxx %d\n", dig4);
-                    fprintf(ofp, " - Points Earned: %.2f\n", pt);
-                    fprintf(ofp, "--------------------------------\n");
-                    fprintf(ofp, "%d | ", r);
-                    fprintf(ofp, "%s",ctime(&t));
-                    fprintf(ofp, "--------------------------------\n");
-                    fprintf(ofp, "      Thank you for trusting    \n");
-                    fprintf(ofp, "          CHERYL PISONET       \n");
-                    fprintf(ofp, "--------------------------------\n");
-
-                    fclose(ofp);
-
                     system("cls");
                     printf("=========================================\n");
                     printf("Checkout\n");
@@ -673,57 +786,7 @@ options:
                     printf("\n");
                     printf("Press any key to view receipt.\n");
                     getch();
-
-                    Sleep(1000);
-                    system("cls");
-                    printf("=========================================\n");
-                    printf("Receipt Preview \n");
-                    printf("Current Time: %s",ctime(&t));
-                    printf("=========================================\n");
-                    printf("\n");
-                    printf("CHERYL PISONET\n");
-                    printf("476 Workenshire Road\n");
-                    printf("Manhattan, New York City\n");
-                    printf("Official Receipt\n");
-                    printf("------------------------------\n");
-                    printf("Customer Name: %s \n", fn);
-                    printf("------------------------------\n");
-                    printf("Internet Charges\n");
-                    printf(" - Total Time: %.2f\n", timel);
-                    printf("     * 12.00/hour\n");
-                    printf(" - Total Charges: %.2f\n", timechg);
-                    printf("Printing Charges\n");
-                    printf(" - Total Charges: %.2f\n", prtttl);
-                    printf("Total Food: %.2f\n", food);
-                    printf("Load Charges: %s\n",net);
-                    printf(" - P %.2f\n", load);
-                    printf("------------------------------\n");
-                    printf("Grand Total:   %.2f\n", totchg);
-                    printf(" - Taxable:    %.2f\n", tax);
-                    printf(" - VAT 12%:    %.2f\n", vat);
-                    printf("Amount Tendered: \n");
-                    printf(" - Credit Card: %s\n", cm);
-                    printf(" - Card No: xxxx %d\n", cc4);
-                    printf(" - Approval Code: %d\n", appr);
-                    printf("Loyalty Card: \n");
-                    printf(" - Card No.: xxxx %d\n", dig4);
-                    printf(" - Points Earned: %.2f\n", pt);
-                    printf("------------------------------\n");
-                    printf("%d | ", r);
-                    printf("%s",ctime(&t));
-                    printf("------------------------------\n");
-                    printf("    Thank you for trusting    \n");
-                    printf("       CHERYL PISONETAN       \n");
-                    printf("------------------------------\n");
-                    printf("\n");
-                    printf("Saving to database...\n");
-                    Sleep(1000);
-                    MessageBox(0,"Receipt can be printed from 2.txt.","Print Receipt",1);
-                    printf("=========================================\n");
-                    printf("  THANK YOU FOR TRUSTING CHERYL PISONET\n");
-                    printf("=========================================\n");
-                    Sleep(1000);
-                    goto m;
+                    goto receipttxt;
 
                 }
 
@@ -794,45 +857,6 @@ options:
                     vat = totchg * 0.12;
                     tax = totchg - vat;
 
-                    ofp = fopen("2.txt","w");
-
-                    fprintf(ofp, "CHERYL PISONET\n");
-                    fprintf(ofp, "476 Workenshire Road\n");
-                    fprintf(ofp, "Manhattan, New York City\n");
-                    fprintf(ofp, "Official Receipt\n");
-                    fprintf(ofp, "--------------------------------\n");
-                    fprintf(ofp, "Customer Name: %s ", fn);
-                    fprintf(ofp, "--------------------------------\n");
-                    fprintf(ofp, "Internet Charges \n");
-                    fprintf(ofp, " - Total Time: %.2f \n", timel);
-                    fprintf(ofp, "     * 12.00/hour \n");
-                    fprintf(ofp, " - Total Charges: %.2f \n", timechg);
-                    fprintf(ofp, "Printing Charges \n");
-                    fprintf(ofp, " - Total Charges: %.2f \n", prtttl);
-                    fprintf(ofp, "Total Food: %.2f \n", food);
-                    fprintf(ofp, "Load Charges: %s \n",net);
-                    fprintf(ofp, " - P %.2f \n", load);
-                    fprintf(ofp, "--------------------------------\n");
-                    fprintf(ofp, "Grand Total:   %.2f\n", totchg);
-                    fprintf(ofp, " - Taxable:    %.2f\n", tax);
-                    fprintf(ofp, " - VAT 12%:    %.2f\n", vat);
-                    fprintf(ofp, "Amount Tendered: GC\n");
-                    fprintf(ofp, " - GC #      %d%.0f\n", gc1, gcd);
-                    fprintf(ofp, " - GC Ini Bal: %.2f\n", gcb);
-                    fprintf(ofp, " - GC Rem Bal: %.2f\n", gcr);
-                    fprintf(ofp, "Loyalty Card: \n");
-                    fprintf(ofp, " - Card No.: xxxx %d\n", dig4);
-                    fprintf(ofp, " - Points Earned: %.2f\n", pt);
-                    fprintf(ofp, "--------------------------------\n");
-                    fprintf(ofp, "%d | ", r);
-                    fprintf(ofp, "%s",ctime(&t));
-                    fprintf(ofp, "--------------------------------\n");
-                    fprintf(ofp, "      Thank you for trusting    \n");
-                    fprintf(ofp, "          CHERYL PISONET       \n");
-                    fprintf(ofp, "--------------------------------\n");
-
-                    fclose(ofp);
-
                     system("cls");
                     printf("=========================================\n");
                     printf("Checkout\n");
@@ -855,56 +879,8 @@ options:
                     printf("Press any key to view receipt.\n");
                     getch();
 
-                    Sleep(1000);
-                    system("cls");
-                    printf("=========================================\n");
-                    printf("Receipt Preview \n");
-                    printf("Current Time: %s",ctime(&t));
-                    printf("=========================================\n");
-                    printf("\n");
-                    printf("CHERYL PISONET\n");
-                    printf("476 Workenshire Road\n");
-                    printf("Manhattan, New York City\n");
-                    printf("Official Receipt\n");
-                    printf("------------------------------\n");
-                    printf("Customer Name: %s \n", fn);
-                    printf("------------------------------\n");
-                    printf("Internet Charges\n");
-                    printf(" - Total Time: %.2f\n", timel);
-                    printf("     * 12.00/hour\n");
-                    printf(" - Total Charges: %.2f\n", timechg);
-                    printf("Printing Charges\n");
-                    printf(" - Total Charges: %.2f\n", prtttl);
-                    printf("Total Food: %.2f\n", food);
-                    printf("Load Charges: %s\n",net);
-                    printf(" - P %.2f\n", load);
-                    printf("------------------------------\n");
-                    printf("Grand Total:   %.2f\n", totchg);
-                    printf(" - Taxable:    %.2f\n", tax);
-                    printf(" - VAT 12%:    %.2f\n", vat);
-                    printf("Amount Tendered: GC\n");
-                    printf(" - GC #      %d%.0f\n", gc1, gcd);
-                    printf(" - GC Ini Bal: %.2f\n", gcb);
-                    printf(" - GC Rem Bal: %.2f\n", gcr);
-                    printf("Loyalty Card: \n");
-                    printf(" - Card No.: xxxx %d\n", dig4);
-                    printf(" - Points Earned: %.2f\n", pt);
-                    printf("------------------------------\n");
-                    printf("%d | ", r);
-                    printf("%s",ctime(&t));
-                    printf("------------------------------\n");
-                    printf("    Thank you for trusting    \n");
-                    printf("       CHERYL PISONETAN       \n");
-                    printf("------------------------------\n");
-                    printf("\n");
-                    printf("Saving to database...\n");
-                    Sleep(1000);
-                    MessageBox(0,"Receipt can be printed from 2.txt.","Print Receipt",1);
-                    printf("=========================================\n");
-                    printf("  THANK YOU FOR TRUSTING CHERYL PISONET\n");
-                    printf("=========================================\n");
-                    Sleep(1000);
-                    goto m;
+                    goto receipttxt;
+
                 }
 
 
@@ -963,8 +939,6 @@ options:
             goto billing;
         }
 
-
-
     }
 
     else if(choice == 9)
@@ -973,6 +947,33 @@ options:
         Sleep(1000);
         system("cls");
         goto pw;
+    }
+
+    else if(choice == 8)
+    {
+        system("cls");
+        printf("Change Log\n\n");
+        printf("V 1.1\n");
+        printf(" - Initial release, exit from beta.\n\n");
+        printf("V 1.2\n");
+        printf(" - Added ability to pay using credit card\n");
+        printf(" - Fixed bugs in float numbers.\n\n");
+        printf("V 1.3\n");
+        printf(" - Added ability to pay using gift checks.\n");
+        printf(" - Added ability to void transactions.\n");
+        printf("V 1.4\n");
+        printf(" - Added ability to use loyalty cards.\n");
+        printf(" - Fixed bugs in credit card charging.\n\n");
+        printf("V 2.1\n");
+        printf(" - Reduced program file size\n");
+        printf(" - Reduced receipt length\n");
+        printf(" - Added password, lock screen\n");
+        printf(" - Changed main screen colors\n\n");
+        printf("Press any key to go back to main menu.");
+        getch();
+        system("cls");
+        goto beginning;
+
     }
 
     else if(choice == 90)
@@ -1002,6 +1003,7 @@ options:
     else
     {
         printf("Invalid option");
+        Sleep(750);
         goto beginning;
     }
     while (choice != 5);
@@ -1009,7 +1011,10 @@ options:
 
     else
     {
+        system("COLOR 04");
         printf("Password error. Try Again. \n");
+        Sleep(1000);
+        system("cls");
         goto pw;
     }
 

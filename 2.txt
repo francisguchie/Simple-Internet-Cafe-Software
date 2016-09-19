@@ -3,29 +3,21 @@ CHERYL PISONET
 Manhattan, New York City
 Official Receipt
 --------------------------------
-Customer Name: Nanita --------------------------------
+Customer Name: Jeremy --------------------------------
 Internet Charges 
- - Total Time: 0.00 
+ - Total Time: 1.00 
      * 12.00/hour 
- - Total Charges: 0.00 
-Printing Charges 
- - Total Charges: 0.00 
-Total Food: 0.00 
-Load Charges: globe 
- - P 20.00 
+ - Total Charges: 12.00 
 --------------------------------
-Grand Total:   20.00
- - Taxable:    17.60
- - VAT 12:    2.40
+Grand Total:   12.00
+ - Taxable:    10.56
+ - VAT 12:    1.44
 Amount Tendered: GC
- - GC #      62537200
- - GC Ini Bal: 27.60
- - GC Rem Bal: 7.60
-Loyalty Card: 
- - Card No.: xxxx 0
- - Points Earned: 2.00
+ - GC #      5225520
+ - GC Ini Bal: 20.00
+ - GC Rem Bal: 8.00
 --------------------------------
-1041 | Sun Sep 11 12:45:39 2016
+1041 | Fri Sep 16 14:08:10 2016
 --------------------------------
       Thank you for trusting    
           CHERYL PISONET       
